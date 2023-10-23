@@ -1,26 +1,31 @@
-.container {
+.app {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2rem; /* Espacio entre las columnas */
+  padding: 1rem;
 }
 
-.candidate, .accepted, .rejected {
-  flex: 1;
-  padding: 100px;
-  border: 1px solid #ddd;
+.candidate {
+  flex: 15;
+  max-width: 300px; /* Ancho máximo para cada columna */
+  overflow-y: auto; /* Para que se pueda hacer scroll si hay muchos perros */
 }
-
-.candidate img {
-  max-width: 50%;
-  height: 100 px x 100 px;
+ .accepted-list {
+  flex: 14;
+  max-width: 400px; /* Ancho máximo para cada columna */
+  overflow-y: auto; /* Para que se pueda hacer scroll si hay muchos perros */
 }
-
-/* Estilos para pantallas pequeñas (por ejemplo, móviles) */
-@media (max-width: 600px) {
-  .container {
-    flex-direction: column;
-  }
-
-  .candidate, .accepted, .rejected {
-    width: 100%;
-  }
-} 
+ .rejected-list {
+  flex: 14;
+  max-width: 400px; /* Ancho máximo para cada columna */
+  overflow-y: auto; /* Para que se pueda hacer scroll si hay muchos perros */
+}
+ /* App.css */
+.card-image {
+  width: 100%; /* Esto hará que la imagen ocupe todo el ancho del contenedor */
+  max-height: 300px; /* Puedes ajustar este valor según tus necesidades */
+  object-fit: cover; /* Esto mantiene la relación de aspecto de la imagen mientras se ajusta al contenedor */
+  display: block; /* Centra la imagen horizontalmente */
+  margin: 0 auto; /* Centra la imagen horizontalmente */
+}
