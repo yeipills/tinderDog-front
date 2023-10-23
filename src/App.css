@@ -13,3 +13,14 @@
   max-width: 100%;
   height: auto;
 }
+
+/* Estilos para pantallas pequeñas (por ejemplo, móviles) */
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .candidate, .accepted, .rejected {
+    width: 100%;
+  }
+}
