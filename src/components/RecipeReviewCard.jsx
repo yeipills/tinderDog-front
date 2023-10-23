@@ -89,3 +89,4 @@ RecipeReviewCard.propTypes = {
   onReject: PropTypes.func.isRequired,
   onRegret: PropTypes.func.isRequired,
 };
+ 

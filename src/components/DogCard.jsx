@@ -1,4 +1,3 @@
-// DogCard.jsx
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -32,4 +31,6 @@ DogCard.propTypes = {
   onRegret: PropTypes.func, // Si esta prop no es obligatoria
 };
 
+ 
 export default DogCard;
+ 
