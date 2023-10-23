@@ -31,4 +31,6 @@ DogCard.propTypes = {
   onRegret: PropTypes.func, // Si esta prop no es obligatoria
 };
 
+ 
 export default DogCard;
+ 
