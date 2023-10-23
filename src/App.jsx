@@ -2,6 +2,13 @@ import React, { useState, useCallback } from 'react';
 import { useQuery } from 'react-query';
 import { CircularProgress } from '@mui/material';
 import './App.css';
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import Container from '@mui/material/Container';
+import CardActions from '@mui/material/CardActions';  
+
 
 function App() {
   const [acceptedDogs, setAcceptedDogs] = useState([]);
@@ -20,7 +27,7 @@ function App() {
 
   const { data: dog, isLoading, refetch } = useQuery('dogImage', fetchDogImage, {
     staleTime: 0
-  });
+  }); //aqui se hace la peticion a la api
 
   // Función para generar un nombre aleatorio de 6 caracteres
   const generateRandomName = () => {
@@ -63,20 +70,27 @@ function App() {
         {isLoading ? (
           <CircularProgress />
         ) : (
-          <>
-            <img src={dog?.image} alt="Perro candidato" />
-            <p>{dog?.name}</p>
-            <button onClick={handleAccept}>Aceptar</button>
-            <button onClick={handleReject}>Rechazar</button>
-          </>
+          <Container fixed>
+              <img src={dog?.image} alt="Perro candidato" />
+              <p>{dog?.name}</p>
+              <CardActions>
+              <Button size="large" variant="contained" color="success" onClick={handleAccept}>Aceptar</Button>
+              {' '} {/* Espacio en blanco */}
+              <Button size="large" variant="outlined" color="error" onClick={handleReject}>Rechazar</Button>
+              {' '} {/* Espacio en blanco */}
+              <Button size="large" variant="outlined" color="secondary" onClick={handleRepent}>Arrepentirse</Button>
+              </CardActions>
+          </Container>
         )}
       </div>
 
       {/* Columna de Aceptados */}
       <div className="accepted">
+        <container fixed>
         {acceptedDogs.map((dog) => (
           <img key={dog.name} src={dog.image} alt={dog.name} />
         ))}
+        </container>
       </div>
 
       {/* Columna de Rechazados */}
@@ -85,9 +99,6 @@ function App() {
           <img key={dog.name} src={dog.image} alt={dog.name} />
         ))}
       </div>
-
-      {/* Botón para arrepentirse */}
-      <button onClick={handleRepent}>Arrepentirse</button>
     </div>
   );
 }
