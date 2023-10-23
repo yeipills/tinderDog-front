@@ -1,94 +1,105 @@
-import React, { useState, useCallback } from 'react';
-import { useQuery } from 'react-query';
-import { CircularProgress } from '@mui/material';
-import './App.css';
+import { useState, useEffect, useCallback } from "react";
+import RecipeReviewCard from "./components/RecipeReviewCard";
+import DogCard from "./components/DogCard";
+import CardHeader from "@mui/material/CardHeader";
+import Box from "@mui/material/Box";
+import "./App.css";
 
 function App() {
+  const [currentDog, setCurrentDog] = useState(null);
   const [acceptedDogs, setAcceptedDogs] = useState([]);
   const [rejectedDogs, setRejectedDogs] = useState([]);
-  const [lastAction, setLastAction] = useState(null); // 'accepted' o 'rejected'
 
-  // Función para obtener una imagen aleatoria de perro
-  const fetchDogImage = async () => {
-    const response = await fetch('https://dog.ceo/api/breeds/image/random');
-    const data = await response.json();
-    return {
-      image: data.message,
-      name: generateRandomName()
-    };
-  };
+  const fetchDogImage = useCallback(async () => {
+    try {
+      const response = await fetch("https://dog.ceo/api/breeds/image/random");
+      const data = await response.json();
+      const dogName = generateRandomName();
+      setCurrentDog({ image: data.message, name: dogName });
+    } catch (error) {
+      console.error("Error fetching dog image:", error);
+    }
+  }, []);
 
-  const { data: dog, isLoading, refetch } = useQuery('dogImage', fetchDogImage, {
-    staleTime: 0
-  });
+  useEffect(() => {
+    fetchDogImage();
+  }, [fetchDogImage]);
 
-  // Función para generar un nombre aleatorio de 6 caracteres
   const generateRandomName = () => {
-    return Math.random().toString(36).substr(2, 6);
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let result = "";
+    for (let i = 0; i < 6; i++) {
+      result += characters.charAt(
+        Math.floor(Math.random() * characters.length)
+      );
+    }
+    return result;
   };
 
-  // Lógica para los botones
-  const handleAccept = useCallback(() => {
-    if (dog) {
-      setAcceptedDogs([dog, ...acceptedDogs]);
-      setLastAction('accepted');
-      refetch();
+  const handleAccept = () => {
+    if (currentDog) {
+      setAcceptedDogs([currentDog, ...acceptedDogs]);
+      fetchDogImage();
     }
-  }, [dog, acceptedDogs, refetch]);
+  };
 
-  const handleReject = useCallback(() => {
-    if (dog) {
-      setRejectedDogs([dog, ...rejectedDogs]);
-      setLastAction('rejected');
-      refetch();
+  const handleReject = () => {
+    if (currentDog) {
+      setRejectedDogs([currentDog, ...rejectedDogs]);
+      fetchDogImage();
     }
-  }, [dog, rejectedDogs, refetch]);
+  };
 
-  const handleRepent = () => {
-    if (lastAction === 'accepted' && acceptedDogs.length > 0) {
+  const handleRegret = () => {
+    if (acceptedDogs.length > 0) {
       const lastAcceptedDog = acceptedDogs[0];
       setAcceptedDogs(acceptedDogs.slice(1));
-      setRejectedDogs([lastAcceptedDog, ...rejectedDogs]);
-    } else if (lastAction === 'rejected' && rejectedDogs.length > 0) {
+      setCurrentDog(lastAcceptedDog);
+    } else if (rejectedDogs.length > 0) {
       const lastRejectedDog = rejectedDogs[0];
       setRejectedDogs(rejectedDogs.slice(1));
-      setAcceptedDogs([lastRejectedDog, ...acceptedDogs]);
+      setCurrentDog(lastRejectedDog);
     }
   };
 
   return (
-    <div className="container">
-      {/* Columna del Candidato */}
-      <div className="candidate">
-        {isLoading ? (
-          <CircularProgress />
-        ) : (
-          <>
-            <img src={dog?.image} alt="Perro candidato" />
-            <p>{dog?.name}</p>
-            <button onClick={handleAccept}>Aceptar</button>
-            <button onClick={handleReject}>Rechazar</button>
-          </>
-        )}
+    <Box className="main-card" sx={{ bgcolor: "#242424", padding: "10rem" }}>
+      <div className="app">
+        <Box sx={{ bgcolor: "#ECCBFF", margin: "1rem", borderRadius: "px" }}>
+          <CardHeader
+            title="Candidato"
+            titleTypographyProps={{ color: "secondary" }}
+          />
+          {currentDog && (
+            <RecipeReviewCard
+              image={currentDog.image}
+              name={currentDog.name}
+              onAccept={handleAccept}
+              onReject={handleReject}
+              onRegret={handleRegret}
+            />
+          )}
+        </Box>
+        <Box sx={{ bgcolor: "#C9F3CC", margin: "1rem", borderRadius: "8px" }}>
+          <CardHeader
+            title="Aceptado"
+            titleTypographyProps={{ color: "primary" }}
+          />
+          {acceptedDogs.map((dog, index) => (
+            <DogCard key={index} image={dog.image} name={dog.name} />
+          ))}
+        </Box>
+        <Box sx={{ bgcolor: "#FFBEC8", margin: "1rem", borderRadius: "8px" }}>
+          <CardHeader
+            title="Rechazado"
+            titleTypographyProps={{ color: "error" }}
+          />
+          {rejectedDogs.map((dog, index) => (
+            <DogCard key={index} image={dog.image} name={dog.name} />
+          ))}
+        </Box>
       </div>
-
-      {/* Columna de Aceptados */}
-      <div className="accepted">
-        {acceptedDogs.map((dog) => (
-          <img key={dog.name} src={dog.image} alt={dog.name} />
-        ))}
-      </div>
-
-      {/* Columna de Rechazados */}
-      <div className="rejected">
-        {rejectedDogs.map((dog) => (
-          <img key={dog.name} src={dog.image} alt={dog.name} />
-        ))}
-      </div>
-
-      {/* Botón para arrepentirse */}
-      <button onClick={handleRepent}>Arrepentirse</button>
-    </div>
+    </Box>
   );
 }
 
