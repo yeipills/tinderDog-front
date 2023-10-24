@@ -6,34 +6,34 @@ import Box from "@mui/material/Box";
 import "./App.css";
 import Container from "@mui/material/Container";
 
-function App() {
+function App() {// Creamos el componente
   const [currentDog, setCurrentDog] = useState(null);
   const [acceptedDogs, setAcceptedDogs] = useState([]);
   const [rejectedDogs, setRejectedDogs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchDogImage = useCallback(async () => {
+  const fetchDogImage = useCallback(async () => {// Creamos la función fetchDogImage
     setIsLoading(true);
-    try {
+    try {// Dentro de un try/catch
       const response = await fetch("https://dog.ceo/api/breeds/image/random");
       const data = await response.json();
       const dogName = generateRandomName();
       const dogDescription = generateRandomDesciption();
-      setCurrentDog({
+      setCurrentDog({// Actualizamos el estado de currentDog
         image: data.message,
         description: dogDescription,
         name: dogName,
-      });
+      });// Con la imagen, descripción y nombre del perro
     } catch (error) {
-      console.error("Error fetching dog image:", error);
+      console.error("Error fetching dog image:", error);// Si hay un error, lo mostramos por consola
     } finally {
-      setIsLoading(false);
+      setIsLoading(false);// Finalmente, actualizamos el estado de isLoading
     }
   }, []);
 
   useEffect(() => {
     fetchDogImage();
-  }, [fetchDogImage]);
+  }, [fetchDogImage]);// Llamamos a fetchDogImage en el useEffect
 
   const generateRandomName = () => {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -42,25 +42,25 @@ function App() {
       result += characters.charAt(
         Math.floor(Math.random() * characters.length)
       );
-    }
+    }// Creamos una función para generar un nombre aleatorio
     return result;
-  };
+  };// Con 6 caracteres aleatorios
 
   const generateRandomDesciption = () => {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     let resultDescription = "";
     const lineLength = 40;
-  
+  // Creamos una función para generar una descripción aleatoria
     for (let i = 0; i < 130; i++) {
       if (i > 0 && i % lineLength === 0) {
         resultDescription += '\n';   
       }
       resultDescription += characters.charAt(
         Math.floor(Math.random() * characters.length)
-      );
+      );// Con 130 caracteres aleatorios
     }
     return resultDescription;
-  };
+  };// Con saltos de línea cada 40 caracteres
 
   const handleAccept = () => {
     if (isLoading) return;
@@ -68,7 +68,7 @@ function App() {
       setAcceptedDogs([currentDog, ...acceptedDogs]);
       fetchDogImage();
     }
-  };
+  };// Creamos la función handleAccept para aceptar
 
   const handleReject = () => {
     if (isLoading) return;
@@ -76,7 +76,7 @@ function App() {
       setRejectedDogs([currentDog, ...rejectedDogs]);
       fetchDogImage();
     }
-  };
+  };// Creamos la función handleReject para rechazar
 
   const handleRegret = () => {
     if (isLoading) return;
@@ -89,7 +89,7 @@ function App() {
       setRejectedDogs(rejectedDogs.slice(1));
       setCurrentDog(lastRejectedDog);
     }
-  };
+  };// Creamos la función handleRegret para arrepentirse
 
   return (
     <Container
@@ -103,7 +103,7 @@ function App() {
         bgcolor: "#242424",
         padding: "5 rem"
       }}
-    >
+    >// Retornamos el componente Container
       <Box className="app">
         <Box className="candidate" sx={{ bgcolor: "#ECCBFF", margin: "2rem", borderRadius: "8px" }}>
           <CardHeader
@@ -157,4 +157,4 @@ function App() {
   );
 }  
 
-export default App;
+export default App;// Exportamos el componente App
