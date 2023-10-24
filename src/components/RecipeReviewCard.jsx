@@ -77,9 +77,7 @@ export default function RecipeReviewCard({
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>Detalles:</Typography>
-          <Typography paragraph>
-            Me gusta {description}
-          </Typography>
+          <Typography paragraph>Me gusta {description}</Typography>
         </CardContent>
       </Collapse>
     </Card>
@@ -94,4 +92,3 @@ RecipeReviewCard.propTypes = {
   onReject: PropTypes.func.isRequired,
   onRegret: PropTypes.func.isRequired,
 };
-

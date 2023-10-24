@@ -5,8 +5,6 @@ import CardHeader from "@mui/material/CardHeader";
 import Box from "@mui/material/Box";
 import "./App.css";
 import Container from "@mui/material/Container";
-import { red } from "@mui/material/colors";
-import { Card } from "@mui/material";
 
 function App() {
   const [currentDog, setCurrentDog] = useState(null);
