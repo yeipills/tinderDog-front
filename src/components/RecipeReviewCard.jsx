@@ -22,6 +22,7 @@ export default function RecipeReviewCard({
   onAccept,
   onReject,
   onRegret,
+  isLoading,
 }) {
   const [expanded, setExpanded] = useState(false);
 
@@ -56,10 +57,18 @@ export default function RecipeReviewCard({
       </CardContent>
 
       <CardActions disableSpacing>
-        <IconButton aria-label="aceptar" onClick={onAccept}>
+        <IconButton
+          disabled={isLoading}
+          aria-label="aceptar"
+          onClick={onAccept}
+        >
           <ThumbUpIcon />
         </IconButton>
-        <IconButton aria-label="rechazar" onClick={onReject}>
+        <IconButton
+          disabled={isLoading}
+          aria-label="rechazar"
+          onClick={onReject}
+        >
           <ThumbDownIcon />
         </IconButton>
         <IconButton aria-label="arrepentirse" onClick={onRegret}>
@@ -77,7 +86,14 @@ export default function RecipeReviewCard({
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>Detalles:</Typography>
-          <Typography paragraph>Me gusta {description}</Typography>
+          <Typography
+            variant="body3"
+            color="text.primari"
+            style={{ wordWrap: "break-word", overflowWrap: "break-word" }}
+          >
+            {" "}
+            {description}
+          </Typography>
         </CardContent>
       </Collapse>
     </Card>
@@ -91,4 +107,5 @@ RecipeReviewCard.propTypes = {
   onAccept: PropTypes.func.isRequired,
   onReject: PropTypes.func.isRequired,
   onRegret: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };

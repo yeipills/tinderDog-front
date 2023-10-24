@@ -9,22 +9,20 @@
 .candidate {
   flex: 15;
   max-width: 300px; /* Ancho máximo para cada columna */
-  overflow-y: auto; /* Para que se pueda hacer scroll si hay muchos perros */
 }
  .accepted-list {
   flex: 14;
   max-width: 400px; /* Ancho máximo para cada columna */
-  overflow-y: auto; /* Para que se pueda hacer scroll si hay muchos perros */
+  overflow: auto; /* Para que se pueda hacer scroll si hay muchos perros */
 }
  .rejected-list {
   flex: 14;
   max-width: 400px; /* Ancho máximo para cada columna */
-  overflow-y: auto; /* Para que se pueda hacer scroll si hay muchos perros */
+  overflow: auto; /* Para que se pueda hacer scroll si hay muchos perros */
 }
- /* App.css */
 .card-image {
   width: 100%; /* Esto hará que la imagen ocupe todo el ancho del contenedor */
-  max-height: 300px; /* Puedes ajustar este valor según tus necesidades */
+  max-height: 270px; /* Puedes ajustar este valor según tus necesidades */
   object-fit: cover; /* Esto mantiene la relación de aspecto de la imagen mientras se ajusta al contenedor */
   display: block; /* Centra la imagen horizontalmente */
   margin: 0 auto; /* Centra la imagen horizontalmente */

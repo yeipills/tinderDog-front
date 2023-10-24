@@ -12,7 +12,6 @@ import IconButton from "@mui/material/IconButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { CardActions } from "@mui/material";
 
-
 function DogCard({ image, name, description }) {
   const [expanded, setExpanded] = useState(false); // Estado para controlar la apertura/cierre del Collapse
 
@@ -31,7 +30,6 @@ function DogCard({ image, name, description }) {
         title={name}
       />
 
-
       <CardMedia
         className="card-image"
         component="img"
@@ -39,24 +37,28 @@ function DogCard({ image, name, description }) {
         alt={name}
       />
 
-    <CardActions>
-    <IconButton
+      <CardActions>
+        <IconButton
           onClick={handleExpandClick}
           aria-expanded={expanded}
           aria-label="mostrar más"
         >
           <ExpandMoreIcon />
         </IconButton>
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
+        </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
             <Typography paragraph>Detalles:</Typography>
-            <Typography paragraph>
-            Me gusta {description}
+            <Typography
+              variant="body3"
+              color="text.primari"
+              style={{ wordWrap: "break-word" , overflowWrap: "break-word"}}
+            >
+              {" "}
+              {description}
             </Typography>
           </CardContent>
         </Collapse>
-      </CardActions>
-
     </Card>
   );
 }
@@ -66,6 +68,5 @@ DogCard.propTypes = {
   description: PropTypes.string.isRequired,
   onRegret: PropTypes.func, // Si esta prop no es obligatoria
 };
-
 
 export default DogCard;

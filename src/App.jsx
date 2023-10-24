@@ -10,16 +10,24 @@ function App() {
   const [currentDog, setCurrentDog] = useState(null);
   const [acceptedDogs, setAcceptedDogs] = useState([]);
   const [rejectedDogs, setRejectedDogs] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchDogImage = useCallback(async () => {
+    setIsLoading(true);
     try {
       const response = await fetch("https://dog.ceo/api/breeds/image/random");
       const data = await response.json();
       const dogName = generateRandomName();
       const dogDescription = generateRandomDesciption();
-      setCurrentDog({ image: data.message, description: dogDescription ,name: dogName });
+      setCurrentDog({
+        image: data.message,
+        description: dogDescription,
+        name: dogName,
+      });
     } catch (error) {
       console.error("Error fetching dog image:", error);
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
@@ -41,7 +49,12 @@ function App() {
   const generateRandomDesciption = () => {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     let resultDescription = "";
-    for (let i = 20; i < 50; i++) {
+    const lineLength = 40;
+  
+    for (let i = 0; i < 130; i++) {
+      if (i > 0 && i % lineLength === 0) {
+        resultDescription += '\n';   
+      }
       resultDescription += characters.charAt(
         Math.floor(Math.random() * characters.length)
       );
@@ -49,8 +62,8 @@ function App() {
     return resultDescription;
   };
 
-  const
-  handleAccept = () => {
+  const handleAccept = () => {
+    if (isLoading) return;
     if (currentDog) {
       setAcceptedDogs([currentDog, ...acceptedDogs]);
       fetchDogImage();
@@ -58,6 +71,7 @@ function App() {
   };
 
   const handleReject = () => {
+    if (isLoading) return;
     if (currentDog) {
       setRejectedDogs([currentDog, ...rejectedDogs]);
       fetchDogImage();
@@ -65,6 +79,7 @@ function App() {
   };
 
   const handleRegret = () => {
+    if (isLoading) return;
     if (acceptedDogs.length > 0) {
       const lastAcceptedDog = acceptedDogs[0];
       setAcceptedDogs(acceptedDogs.slice(1));
@@ -77,11 +92,12 @@ function App() {
   };
 
   return (
-    <Container className="main-card" sx={{ border: "5 rem", bgcolor: "#242424", padding: "5 rem" }}>
-
+    <Container
+      className="main-card"
+      sx={{ border: "5 rem", bgcolor: "#242424", padding: "5 rem" }}
+    >
       <Box className="app">
-
-        <Box sx={{ bgcolor: "#ECCBFF", margin: "1rem", borderRadius: "px" }}>
+        <Box sx={{ bgcolor: "#ECCBFF", margin: "1rem", borderRadius: "8px" }}>
           <CardHeader
             title="Perrito candidato"
             titleTypographyProps={{ color: "secondary" }}
@@ -91,36 +107,43 @@ function App() {
               image={currentDog.image}
               name={currentDog.name}
               description={currentDog.description}
-              onAccept={handleAccept}//boton de aceptar
-              onReject={handleReject}//boton de rechazo
-              onRegret={handleRegret}//boton de arrepentimiento
+              onAccept={handleAccept}
+              onReject={handleReject}
+              onRegret={handleRegret}
+              isLoading={isLoading}  
             />
           )}
         </Box>
 
-
-        <Box sx={{ bgcolor: "#C9F3CC", margin: "1rem", borderRadius: "8px" }}>
+        <Box sx={{ bgcolor: "#C9F3CC", margin: "1rem", borderRadius: "8px", maxHeight: "700px", overflow: "auto" }}>
           <CardHeader
             title=" Perrito aceptado"
             titleTypographyProps={{ color: "primary" }}
           />
           {acceptedDogs.map((dog, index) => (
-            <DogCard key={index} image={dog.image} name={dog.name} description={dog.description} />
+            <DogCard
+              key={index}
+              image={dog.image}
+              name={dog.name}
+              description={dog.description}
+            />
           ))}
         </Box>
 
-
-        <Box sx={{ bgcolor: "#FFBEC8", margin: "1rem", borderRadius: "8px" }}>
+        <Box sx={{ bgcolor: "#FFBEC8", margin: "1rem", borderRadius: "8px", maxHeight: "700px", overflow: "auto" }}>
           <CardHeader
             title="Perrito rechazado"
             titleTypographyProps={{ color: "error" }}
           />
           {rejectedDogs.map((dog, index) => (
-            <DogCard key={index} image={dog.image} name={dog.name} description={dog.description} />
+            <DogCard
+              key={index}
+              image={dog.image}
+              name={dog.name}
+              description={dog.description}
+            />
           ))}
         </Box>
-
-
       </Box>
     </Container>
   );
