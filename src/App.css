@@ -28,3 +28,4 @@
   object-fit: cover; /* Esto mantiene la relación de aspecto de la imagen mientras se ajusta al contenedor */
   display: block; /* Centra la imagen horizontalmente */
   margin: 0 auto; /* Centra la imagen horizontalmente */
+}
