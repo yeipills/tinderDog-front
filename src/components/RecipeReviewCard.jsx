@@ -14,7 +14,7 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import UndoIcon from "@mui/icons-material/Undo";
 import PropTypes from "prop-types";
-
+ 
 export default function RecipeReviewCard({
   image,
   name,
@@ -75,8 +75,10 @@ export default function RecipeReviewCard({
           <UndoIcon />
         </IconButton>
         <IconButton
+          expand={expanded}
           onClick={handleExpandClick}
           aria-expanded={expanded}
+          sx={{ ml: 'auto' }}
           aria-label="mostrar más"
         >
           <ExpandMoreIcon />
