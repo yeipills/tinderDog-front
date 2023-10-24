@@ -94,10 +94,18 @@ function App() {
   return (
     <Container
       className="main-card"
-      sx={{ border: "5 rem", bgcolor: "#242424", padding: "5 rem" }}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        bgcolor: "#242424",
+        padding: "5 rem"
+      }}
     >
       <Box className="app">
-        <Box sx={{ bgcolor: "#ECCBFF", margin: "1rem", borderRadius: "8px" }}>
+        <Box className="candidate" sx={{ bgcolor: "#ECCBFF", margin: "2rem", borderRadius: "8px" }}>
           <CardHeader
             title="Perrito candidato"
             titleTypographyProps={{ color: "secondary" }}
@@ -114,8 +122,8 @@ function App() {
             />
           )}
         </Box>
-
-        <Box sx={{ bgcolor: "#C9F3CC", margin: "1rem", borderRadius: "8px", maxHeight: "700px", overflow: "auto" }}>
+  
+        <Box className="accepted-list" sx={{ bgcolor: "#C9F3CC", margin: "1rem", borderRadius: "8px" }}>
           <CardHeader
             title=" Perrito aceptado"
             titleTypographyProps={{ color: "primary" }}
@@ -129,8 +137,8 @@ function App() {
             />
           ))}
         </Box>
-
-        <Box sx={{ bgcolor: "#FFBEC8", margin: "1rem", borderRadius: "8px", maxHeight: "700px", overflow: "auto" }}>
+  
+        <Box className="rejected-list" sx={{ bgcolor: "#FFBEC8", margin: "1rem", borderRadius: "8px" }}>
           <CardHeader
             title="Perrito rechazado"
             titleTypographyProps={{ color: "error" }}
@@ -147,6 +155,6 @@ function App() {
       </Box>
     </Container>
   );
-}
+}  
 
 export default App;
