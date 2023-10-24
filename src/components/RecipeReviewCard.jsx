@@ -14,7 +14,9 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import UndoIcon from "@mui/icons-material/Undo";
 import PropTypes from "prop-types";
- 
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+
 export default function RecipeReviewCard({
   image,
   name,
@@ -42,17 +44,22 @@ export default function RecipeReviewCard({
         subheader="Candidato Canino"
       />
 
-      <CardMedia
-        component="img"
-        height="194"
-        image={image}
-        alt="Perro candidato"
-      />
+      {isLoading ? (
+        <Box display="flex" justifyContent="center" alignItems="center" height="194px">
+          <CircularProgress />
+        </Box>
+      ) : (
+        <CardMedia
+          component="img"
+          height="194"
+          image={image}
+          alt="Perro candidato"
+        />
+      )}
 
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          Este es {name}, un candidato canino que busca ser aceptado. ¿Qué
-          opinas?
+          Este es {name}, un candidato canino que busca ser aceptado. ¿Qué opinas?
         </Typography>
       </CardContent>
 
@@ -93,7 +100,6 @@ export default function RecipeReviewCard({
             color="text.primari"
             style={{ wordWrap: "break-word", overflowWrap: "break-word" }}
           >
-            {" "}
             {description}
           </Typography>
         </CardContent>
