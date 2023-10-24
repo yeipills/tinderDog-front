@@ -16,10 +16,10 @@ function DogCard({ image, name, description }) {
   const [expanded, setExpanded] = useState(false); // Estado para controlar la apertura/cierre del Collapse
 
   const handleExpandClick = () => {
-    setExpanded(!expanded);
+    setExpanded(!expanded);// Cambiamos el estado de la variable expanded
   };
 
-  return (
+  return (// Retornamos el componente
     <Card sx={{ maxWidth: 345, margin: "1rem" }}>
       <CardHeader
         avatar={
@@ -28,14 +28,14 @@ function DogCard({ image, name, description }) {
           </Avatar>
         }
         title={name}
-      />
+      />// El título de la card será el nombre del perro
 
       <CardMedia
         className="card-image"
         component="img"
         image={image}
         alt={name}
-      />
+      />// La imagen de la card será la imagen del perro
 
       <CardActions>
         <IconButton
@@ -43,7 +43,7 @@ function DogCard({ image, name, description }) {
           aria-expanded={expanded}
           sx={{ ml: 'auto' }}
           aria-label="mostrar más"
-        >
+        >// El botón de expandir/cerrar el Collapse
           <ExpandMoreIcon />
         </IconButton>
         </CardActions>
@@ -54,7 +54,7 @@ function DogCard({ image, name, description }) {
               variant="body3"
               color="text.primari"
               style={{ wordWrap: "break-word" , overflowWrap: "break-word"}}
-            >
+            >// El texto del Collapse será la descripción del perro
               {" "}
               {description}
             </Typography>
@@ -70,4 +70,4 @@ DogCard.propTypes = {
   onRegret: PropTypes.func, // Si esta prop no es obligatoria
 };
 
-export default DogCard;
+export default DogCard;// Exportamos el componente

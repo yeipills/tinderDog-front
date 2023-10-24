@@ -17,7 +17,7 @@ import PropTypes from "prop-types";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
-export default function RecipeReviewCard({
+export default function RecipeReviewCard({// Exportamos el componente
   image,
   name,
   description,
@@ -25,14 +25,15 @@ export default function RecipeReviewCard({
   onReject,
   onRegret,
   isLoading,
+  // Añadimos las props onAccept, onReject, onRegret y isLoading
 }) {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(false);// Estado para controlar la apertura/cierre del Collapse
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
-  };
+  };// Cambiamos el estado de la variable expanded
 
-  return (
+  return (// Retornamos el componente
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
         avatar={
@@ -42,43 +43,43 @@ export default function RecipeReviewCard({
         }
         title={name}
         subheader="Candidato Canino"
-      />
+      />// El título de la card será el nombre del perro
 
       {isLoading ? (
         <Box display="flex" justifyContent="center" alignItems="center" height="194px">
           <CircularProgress />
-        </Box>
+        </Box>// Si isLoading es true, mostramos un CircularProgress
       ) : (
         <CardMedia
           component="img"
           height="194"
           image={image}
           alt="Perro candidato"
-        />
+        />// La imagen de la card será la imagen del perro
       )}
 
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           Este es {name}, un candidato canino que busca ser aceptado. ¿Qué opinas?
         </Typography>
-      </CardContent>
+      </CardContent>// El texto de la card será la descripción del perro
 
       <CardActions disableSpacing>
         <IconButton
           disabled={isLoading}
           aria-label="aceptar"
           onClick={onAccept}
-        >
+        >// El botón de aceptar
           <ThumbUpIcon />
         </IconButton>
         <IconButton
           disabled={isLoading}
           aria-label="rechazar"
-          onClick={onReject}
+          onClick={onReject}// El botón de rechazar
         >
           <ThumbDownIcon />
         </IconButton>
-        <IconButton aria-label="arrepentirse" onClick={onRegret}>
+        <IconButton aria-label="arrepentirse" onClick={onRegret}>// El botón de arrepentirse
           <UndoIcon />
         </IconButton>
         <IconButton
@@ -87,7 +88,7 @@ export default function RecipeReviewCard({
           aria-expanded={expanded}
           sx={{ ml: 'auto' }}
           aria-label="mostrar más"
-        >
+        >// El botón de expandir/cerrar el Collapse
           <ExpandMoreIcon />
         </IconButton>
       </CardActions>
@@ -116,4 +117,4 @@ RecipeReviewCard.propTypes = {
   onReject: PropTypes.func.isRequired,
   onRegret: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
-};
+};// Definimos las props del componente
