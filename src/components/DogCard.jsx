@@ -41,6 +41,7 @@ function DogCard({ image, name, description }) {
         <IconButton
           onClick={handleExpandClick}
           aria-expanded={expanded}
+          sx={{ ml: 'auto' }}
           aria-label="mostrar más"
         >
           <ExpandMoreIcon />
