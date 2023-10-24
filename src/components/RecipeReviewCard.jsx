@@ -18,6 +18,7 @@ import PropTypes from "prop-types";
 export default function RecipeReviewCard({
   image,
   name,
+  description,
   onAccept,
   onReject,
   onRegret,
@@ -39,18 +40,21 @@ export default function RecipeReviewCard({
         title={name}
         subheader="Candidato Canino"
       />
+
       <CardMedia
         component="img"
         height="194"
         image={image}
         alt="Perro candidato"
       />
+
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           Este es {name}, un candidato canino que busca ser aceptado. ¿Qué
           opinas?
         </Typography>
       </CardContent>
+
       <CardActions disableSpacing>
         <IconButton aria-label="aceptar" onClick={onAccept}>
           <ThumbUpIcon />
@@ -69,12 +73,12 @@ export default function RecipeReviewCard({
           <ExpandMoreIcon />
         </IconButton>
       </CardActions>
+
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>Detalles:</Typography>
           <Typography paragraph>
-            Aquí puedes agregar más detalles sobre el perro, su historia,
-            características o cualquier otro dato relevante.
+            Me gusta {description}
           </Typography>
         </CardContent>
       </Collapse>
@@ -85,8 +89,9 @@ export default function RecipeReviewCard({
 RecipeReviewCard.propTypes = {
   image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
   onAccept: PropTypes.func.isRequired,
   onReject: PropTypes.func.isRequired,
   onRegret: PropTypes.func.isRequired,
 };
- 
+

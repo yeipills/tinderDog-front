@@ -1,11 +1,25 @@
+import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import Avatar from "@mui/material/Avatar";
 import { red } from "@mui/material/colors";
 import PropTypes from "prop-types";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import Collapse from "@mui/material/Collapse";
+import IconButton from "@mui/material/IconButton";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { CardActions } from "@mui/material";
 
-function DogCard({ image, name }) {
+
+function DogCard({ image, name, description }) {
+  const [expanded, setExpanded] = useState(false); // Estado para controlar la apertura/cierre del Collapse
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
   return (
     <Card sx={{ maxWidth: 345, margin: "1rem" }}>
       <CardHeader
@@ -16,12 +30,33 @@ function DogCard({ image, name }) {
         }
         title={name}
       />
+
+
       <CardMedia
         className="card-image"
         component="img"
         image={image}
         alt={name}
       />
+
+    <CardActions>
+    <IconButton
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="mostrar más"
+        >
+          <ExpandMoreIcon />
+        </IconButton>
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            <Typography paragraph>Detalles:</Typography>
+            <Typography paragraph>
+            Me gusta {description}
+            </Typography>
+          </CardContent>
+        </Collapse>
+      </CardActions>
+
     </Card>
   );
 }
@@ -31,6 +66,5 @@ DogCard.propTypes = {
   onRegret: PropTypes.func, // Si esta prop no es obligatoria
 };
 
- 
+
 export default DogCard;
- 

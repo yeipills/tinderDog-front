@@ -4,6 +4,9 @@ import DogCard from "./components/DogCard";
 import CardHeader from "@mui/material/CardHeader";
 import Box from "@mui/material/Box";
 import "./App.css";
+import Container from "@mui/material/Container";
+import { red } from "@mui/material/colors";
+import { Card } from "@mui/material";
 
 function App() {
   const [currentDog, setCurrentDog] = useState(null);
@@ -15,7 +18,8 @@ function App() {
       const response = await fetch("https://dog.ceo/api/breeds/image/random");
       const data = await response.json();
       const dogName = generateRandomName();
-      setCurrentDog({ image: data.message, name: dogName });
+      const dogDescription = generateRandomDesciption();
+      setCurrentDog({ image: data.message, description: dogDescription ,name: dogName });
     } catch (error) {
       console.error("Error fetching dog image:", error);
     }
@@ -36,7 +40,19 @@ function App() {
     return result;
   };
 
-  const handleAccept = () => {
+  const generateRandomDesciption = () => {
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let resultDescription = "";
+    for (let i = 20; i < 50; i++) {
+      resultDescription += characters.charAt(
+        Math.floor(Math.random() * characters.length)
+      );
+    }
+    return resultDescription;
+  };
+
+  const
+  handleAccept = () => {
     if (currentDog) {
       setAcceptedDogs([currentDog, ...acceptedDogs]);
       fetchDogImage();
@@ -63,43 +79,52 @@ function App() {
   };
 
   return (
-    <Box className="main-card" sx={{ bgcolor: "#242424", padding: "10rem" }}>
-      <div className="app">
+    <Container className="main-card" sx={{ border: "5 rem", bgcolor: "#242424", padding: "5 rem" }}>
+
+      <Box className="app">
+
         <Box sx={{ bgcolor: "#ECCBFF", margin: "1rem", borderRadius: "px" }}>
           <CardHeader
-            title="Candidato"
+            title="Perrito candidato"
             titleTypographyProps={{ color: "secondary" }}
           />
           {currentDog && (
             <RecipeReviewCard
               image={currentDog.image}
               name={currentDog.name}
-              onAccept={handleAccept}
-              onReject={handleReject}
-              onRegret={handleRegret}
+              description={currentDog.description}
+              onAccept={handleAccept}//boton de aceptar
+              onReject={handleReject}//boton de rechazo
+              onRegret={handleRegret}//boton de arrepentimiento
             />
           )}
         </Box>
+
+
         <Box sx={{ bgcolor: "#C9F3CC", margin: "1rem", borderRadius: "8px" }}>
           <CardHeader
-            title="Aceptado"
+            title=" Perrito aceptado"
             titleTypographyProps={{ color: "primary" }}
           />
           {acceptedDogs.map((dog, index) => (
-            <DogCard key={index} image={dog.image} name={dog.name} />
+            <DogCard key={index} image={dog.image} name={dog.name} description={dog.description} />
           ))}
         </Box>
+
+
         <Box sx={{ bgcolor: "#FFBEC8", margin: "1rem", borderRadius: "8px" }}>
           <CardHeader
-            title="Rechazado"
+            title="Perrito rechazado"
             titleTypographyProps={{ color: "error" }}
           />
           {rejectedDogs.map((dog, index) => (
-            <DogCard key={index} image={dog.image} name={dog.name} />
+            <DogCard key={index} image={dog.image} name={dog.name} description={dog.description} />
           ))}
         </Box>
-      </div>
-    </Box>
+
+
+      </Box>
+    </Container>
   );
 }
 
