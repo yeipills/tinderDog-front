@@ -103,7 +103,7 @@ function App() {// Creamos el componente
         bgcolor: "#242424",
         padding: "5 rem"
       }}
-    >// Retornamos el componente Container
+    >
       <Box className="app">
         <Box className="candidate" sx={{ bgcolor: "#ECCBFF", margin: "2rem", borderRadius: "8px" }}>
           <CardHeader

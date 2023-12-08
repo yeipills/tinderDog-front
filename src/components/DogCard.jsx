@@ -10,16 +10,17 @@ import Typography from "@mui/material/Typography";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { CardActions } from "@mui/material";
+import CardActions from "@mui/material/CardActions";
 
 function DogCard({ image, name, description }) {
-  const [expanded, setExpanded] = useState(false); // Estado para controlar la apertura/cierre del Collapse
+  const [expanded, setExpanded] = useState(false);
 
+  /* Cambia el estado para expandir o colapsar la sección de detalles */
   const handleExpandClick = () => {
-    setExpanded(!expanded);// Cambiamos el estado de la variable expanded
+    setExpanded(!expanded);
   };
 
-  return (// Retornamos el componente
+  return (
     <Card sx={{ maxWidth: 345, margin: "1rem" }}>
       <CardHeader
         avatar={
@@ -27,47 +28,49 @@ function DogCard({ image, name, description }) {
             {name.charAt(0)}
           </Avatar>
         }
+        /* Nombre del perro */
         title={name}
-      />// El título de la card será el nombre del perro
+      />
 
       <CardMedia
-        className="card-image"
         component="img"
-        image={image}
-        alt={name}
-      />// La imagen de la card será la imagen del perro
-
-      <CardActions>
+        height="194" /* Altura de la imagen */
+        image={image} /* URL de la imagen */
+        alt={name} /* Texto alternativo para la imagen */
+      />
+      <CardActions disableSpacing>
         <IconButton
           onClick={handleExpandClick}
           aria-expanded={expanded}
           sx={{ ml: 'auto' }}
           aria-label="mostrar más"
-        >// El botón de expandir/cerrar el Collapse
+        >
           <ExpandMoreIcon />
         </IconButton>
-        </CardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CardContent>
-            <Typography paragraph>Detalles:</Typography>
-            <Typography
-              variant="body3"
-              color="text.primari"
-              style={{ wordWrap: "break-word" , overflowWrap: "break-word"}}
-            >// El texto del Collapse será la descripción del perro
-              {" "}
-              {description}
-            </Typography>
-          </CardContent>
-        </Collapse>
+      </CardActions>
+
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          <Typography paragraph>Detalles:</Typography>
+          <Typography
+            variant="body2"
+            color="text.primary"
+            style={{ wordWrap: "break-word", overflowWrap: "break-word" }}   
+          > 
+            {description} 
+          </Typography>
+        </CardContent>
+      </Collapse>
     </Card>
   );
 }
+
+/* Definición de PropTypes para el componente */
 DogCard.propTypes = {
   image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  onRegret: PropTypes.func, // Si esta prop no es obligatoria
+  onRegret: PropTypes.func, /* Función opcional de "arrepentimiento" */
 };
 
-export default DogCard;// Exportamos el componente
+export default DogCard; /* Exportación del componente DogCard */

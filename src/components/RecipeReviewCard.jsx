@@ -43,7 +43,7 @@ export default function RecipeReviewCard({// Exportamos el componente
         }
         title={name}
         subheader="Candidato Canino"
-      />// El título de la card será el nombre del perro
+      /> 
 
       {isLoading ? (
         <Box display="flex" justifyContent="center" alignItems="center" height="194px">
@@ -62,14 +62,14 @@ export default function RecipeReviewCard({// Exportamos el componente
         <Typography variant="body2" color="text.secondary">
           Este es {name}, un candidato canino que busca ser aceptado. ¿Qué opinas?
         </Typography>
-      </CardContent>// El texto de la card será la descripción del perro
+      </CardContent> 
 
       <CardActions disableSpacing>
         <IconButton
           disabled={isLoading}
           aria-label="aceptar"
           onClick={onAccept}
-        >// El botón de aceptar
+        > 
           <ThumbUpIcon />
         </IconButton>
         <IconButton
@@ -79,7 +79,7 @@ export default function RecipeReviewCard({// Exportamos el componente
         >
           <ThumbDownIcon />
         </IconButton>
-        <IconButton aria-label="arrepentirse" onClick={onRegret}>// El botón de arrepentirse
+        <IconButton aria-label="arrepentirse" onClick={onRegret}> 
           <UndoIcon />
         </IconButton>
         <IconButton
@@ -88,7 +88,7 @@ export default function RecipeReviewCard({// Exportamos el componente
           aria-expanded={expanded}
           sx={{ ml: 'auto' }}
           aria-label="mostrar más"
-        >// El botón de expandir/cerrar el Collapse
+        > 
           <ExpandMoreIcon />
         </IconButton>
       </CardActions>
