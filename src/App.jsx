@@ -3,37 +3,37 @@ import RecipeReviewCard from "./components/RecipeReviewCard";
 import DogCard from "./components/DogCard";
 import CardHeader from "@mui/material/CardHeader";
 import Box from "@mui/material/Box";
-import "./App.css";
 import Container from "@mui/material/Container";
+import "./App.css";
 
-function App() {// Creamos el componente
+function App() {
   const [currentDog, setCurrentDog] = useState(null);
   const [acceptedDogs, setAcceptedDogs] = useState([]);
   const [rejectedDogs, setRejectedDogs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchDogImage = useCallback(async () => {// Creamos la función fetchDogImage
+  const fetchDogImage = useCallback(async () => {
     setIsLoading(true);
-    try {// Dentro de un try/catch
+    try {
       const response = await fetch("https://dog.ceo/api/breeds/image/random");
       const data = await response.json();
       const dogName = generateRandomName();
       const dogDescription = generateRandomDesciption();
-      setCurrentDog({// Actualizamos el estado de currentDog
+      setCurrentDog({
         image: data.message,
         description: dogDescription,
         name: dogName,
-      });// Con la imagen, descripción y nombre del perro
+      });
     } catch (error) {
-      console.error("Error fetching dog image:", error);// Si hay un error, lo mostramos por consola
+      console.error("Error fetching dog image:", error);
     } finally {
-      setIsLoading(false);// Finalmente, actualizamos el estado de isLoading
+      setIsLoading(false);
     }
   }, []);
 
   useEffect(() => {
     fetchDogImage();
-  }, [fetchDogImage]);// Llamamos a fetchDogImage en el useEffect
+  }, [fetchDogImage]);
 
   const generateRandomName = () => {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -42,41 +42,63 @@ function App() {// Creamos el componente
       result += characters.charAt(
         Math.floor(Math.random() * characters.length)
       );
-    }// Creamos una función para generar un nombre aleatorio
+    }
     return result;
-  };// Con 6 caracteres aleatorios
+  };
 
   const generateRandomDesciption = () => {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     let resultDescription = "";
     const lineLength = 40;
-  // Creamos una función para generar una descripción aleatoria
     for (let i = 0; i < 130; i++) {
       if (i > 0 && i % lineLength === 0) {
-        resultDescription += '\n';   
+        resultDescription += "\n";
       }
       resultDescription += characters.charAt(
         Math.floor(Math.random() * characters.length)
-      );// Con 130 caracteres aleatorios
+      );
     }
     return resultDescription;
-  };// Con saltos de línea cada 40 caracteres
+  };
+
+  const postDogData = async (dog, action) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/perros/${action}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(dog),
+        }
+      );
+
+      if (!response.ok) {
+        const errorResponse = await response.text();
+        throw new Error(`Error al enviar datos del perro: ${errorResponse}`);
+      }
+
+      alert("Acción realizada con éxito!");
+    } catch (error) {
+      console.error("Error al enviar datos del perro:", error);
+      console.error("Datos enviados:", dog);
+    }
+  };
 
   const handleAccept = () => {
-    if (isLoading) return;
-    if (currentDog) {
-      setAcceptedDogs([currentDog, ...acceptedDogs]);
-      fetchDogImage();
-    }
-  };// Creamos la función handleAccept para aceptar
+    if (isLoading || !currentDog) return;
+    setAcceptedDogs([currentDog, ...acceptedDogs]);
+    postDogData(currentDog, "aceptar");
+    fetchDogImage();
+  };
 
   const handleReject = () => {
-    if (isLoading) return;
-    if (currentDog) {
-      setRejectedDogs([currentDog, ...rejectedDogs]);
-      fetchDogImage();
-    }
-  };// Creamos la función handleReject para rechazar
+    if (isLoading || !currentDog) return;
+    setRejectedDogs([currentDog, ...rejectedDogs]);
+    postDogData(currentDog, "rechazar");
+    fetchDogImage();
+  };
 
   const handleRegret = () => {
     if (isLoading) return;
@@ -89,23 +111,26 @@ function App() {// Creamos el componente
       setRejectedDogs(rejectedDogs.slice(1));
       setCurrentDog(lastRejectedDog);
     }
-  };// Creamos la función handleRegret para arrepentirse
+  };
 
   return (
     <Container
       className="main-card"
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
         bgcolor: "#242424",
-        padding: "5 rem"
+        padding: "5 rem",
       }}
     >
       <Box className="app">
-        <Box className="candidate" sx={{ bgcolor: "#ECCBFF", margin: "2rem", borderRadius: "8px" }}>
+        <Box
+          className="candidate"
+          sx={{ bgcolor: "#ECCBFF", margin: "2rem", borderRadius: "8px" }}
+        >
           <CardHeader
             title="Perrito candidato"
             titleTypographyProps={{ color: "secondary" }}
@@ -118,14 +143,17 @@ function App() {// Creamos el componente
               onAccept={handleAccept}
               onReject={handleReject}
               onRegret={handleRegret}
-              isLoading={isLoading}  
+              isLoading={isLoading}
             />
           )}
         </Box>
-  
-        <Box className="accepted-list" sx={{ bgcolor: "#C9F3CC", margin: "1rem", borderRadius: "8px" }}>
+
+        <Box
+          className="accepted-list"
+          sx={{ bgcolor: "#C9F3CC", margin: "1rem", borderRadius: "8px" }}
+        >
           <CardHeader
-            title=" Perrito aceptado"
+            title="Perritos aceptados"
             titleTypographyProps={{ color: "primary" }}
           />
           {acceptedDogs.map((dog, index) => (
@@ -137,10 +165,13 @@ function App() {// Creamos el componente
             />
           ))}
         </Box>
-  
-        <Box className="rejected-list" sx={{ bgcolor: "#FFBEC8", margin: "1rem", borderRadius: "8px" }}>
+
+        <Box
+          className="rejected-list"
+          sx={{ bgcolor: "#FFBEC8", margin: "1rem", borderRadius: "8px" }}
+        >
           <CardHeader
-            title="Perrito rechazado"
+            title="Perritos rechazados"
             titleTypographyProps={{ color: "error" }}
           />
           {rejectedDogs.map((dog, index) => (
@@ -155,6 +186,6 @@ function App() {// Creamos el componente
       </Box>
     </Container>
   );
-}  
+}
 
-export default App;// Exportamos el componente App
+export default App;
