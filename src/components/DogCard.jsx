@@ -42,7 +42,7 @@ function DogCard({ image, name, description }) {
         <IconButton
           onClick={handleExpandClick}
           aria-expanded={expanded}
-          sx={{ ml: 'auto' }}
+          sx={{ ml: "auto" }}
           aria-label="mostrar más"
         >
           <ExpandMoreIcon />
@@ -55,9 +55,9 @@ function DogCard({ image, name, description }) {
           <Typography
             variant="body2"
             color="text.primary"
-            style={{ wordWrap: "break-word", overflowWrap: "break-word" }}   
-          > 
-            {description} 
+            style={{ wordWrap: "break-word", overflowWrap: "break-word" }}
+          >
+            {description}
           </Typography>
         </CardContent>
       </Collapse>
@@ -70,7 +70,7 @@ DogCard.propTypes = {
   image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  onRegret: PropTypes.func, /* Función opcional de "arrepentimiento" */
+  onRegret: PropTypes.func /* Función opcional de "arrepentimiento" */,
 };
 
 export default DogCard; /* Exportación del componente DogCard */
